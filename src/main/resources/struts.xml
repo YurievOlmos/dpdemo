@@ -1,0 +1,72 @@
+<!DOCTYPE struts PUBLIC
+    "-//Apache Software Foundation//DTD Struts Configuration 2.5//EN"
+    "http://struts.apache.org/dtds/struts-2.5.dtd">
+
+<struts>
+    <constant name="struts.devMode" value="true" />
+    <constant name="struts.enable.DynamicMethodInvocation" value="false" />
+    
+    <package name="default" namespace="/" extends="struts-default">
+        <interceptors>
+            <interceptor name="sessionInterceptor" class="com.example.interceptors.SessionInterceptor"/>
+
+            <interceptor-stack name="appStack">
+                <interceptor-ref name="sessionInterceptor" />
+                <interceptor-ref name="defaultStack" />
+            </interceptor-stack>
+            <interceptor-stack name="noSessionStack">
+                <interceptor-ref name="defaultStack" />
+            </interceptor-stack>
+        </interceptors>
+        
+        <!-- <default-interceptor-ref name="appStack" /> -->
+        
+        <action name="login" class="com.example.actions.UserAction" method="login">
+            <interceptor-ref name="noSessionStack" />
+
+            <result name="input">/jsp/login.jsp</result>
+            <result name="success" type="redirectAction">userAction_list</result>
+            <result name="loginRedirect">/jsp/login.jsp</result> <!-- For interceptor -->
+        </action>
+        
+        <action name="logout" class="com.example.actions.UserAction" method="logout">
+            <result type="redirectAction">login</result>
+        </action>
+        <!--
+        <action name="userAction_*" class="com.example.actions.UserAction" method="{1}">
+            <interceptor-ref name="appStack" />
+            <result name="success">/jsp/user/list.jsp</result>
+            <result name="input">/jsp/user/form.jsp</result>
+            <result name="error">/jsp/error.jsp</result>
+        </action>
+        -->
+        <action name="userAction_create" class="com.example.actions.UserAction" method="create">
+            <interceptor-ref name="appStack" />
+            <result name="success">/jsp/user/form.jsp</result>
+            <result name="input">/jsp/user/form.jsp</result>
+            <result name="error">/jsp/error.jsp</result>
+        </action>
+        <action name="userAction_edit" class="com.example.actions.UserAction" method="edit">
+            <interceptor-ref name="appStack" />
+            <result name="success">/jsp/user/list.jsp</result>
+            <result name="input">/jsp/user/form.jsp</result>
+            <result name="error">/jsp/error.jsp</result>
+        </action>
+        <action name="userAction_update" class="com.example.actions.UserAction" method="update">
+            <interceptor-ref name="appStack" />
+            <result name="success">/jsp/user/list.jsp</result>
+            <result name="error">/jsp/error.jsp</result>
+        </action>
+        <action name="userAction_delete" class="com.example.actions.UserAction" method="delete">
+            <interceptor-ref name="appStack" />
+            <result name="success">/jsp/user/list.jsp</result>
+            <result name="error">/jsp/error.jsp</result>
+        </action>
+        <action name="userAction_list" class="com.example.actions.UserAction" method="list">
+            <interceptor-ref name="appStack" />
+            <result name="success">/jsp/user/list.jsp</result>
+            <result name="input">/jsp/user/form.jsp</result>
+            <result name="error">/jsp/error.jsp</result>
+        </action>        
+        </package>
+</struts>
