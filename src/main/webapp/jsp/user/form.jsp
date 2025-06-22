@@ -17,40 +17,21 @@
     </s:if>
 
     <div class="form-container">
-        <s:if test="id == null">
-            <s:form action="userAction_create">
-                <s:hidden name="id"/>
-                <div class="form-row">
-                    <s:textfield name="username" label="Username"/>
-                </div>
-                <div class="form-row">
-                    <s:password name="password" label="Password"/>
-                </div>
-                <div class="form-row">
-                    <s:textfield name="email" label="Email"/>
-                </div>
-                <div class="form-row">
-                    <s:submit value="Save" cssClass="btn"/>
-                </div>
-            </s:form>
-        </s:if>
-        <s:else>
-            <s:form action="userAction_update">
-                <s:hidden name="id"/>
-                <div class="form-row">
-                    <s:textfield name="username" label="Username" value="%{username}" readonly="true"/>
-                </div>
-                <div class="form-row">
-                    <s:password name="password" label="Password"/>
-                </div>
-                <div class="form-row">
-                    <s:textfield name="email" label="Email" value="%{email}"/>
-                </div>
-                <div class="form-row">
-                    <s:submit value="Save" cssClass="btn"/>
-                </div>
-            </s:form>
-        </s:else>
+        <s:form action="userAction_update">
+            <s:hidden name="id"/>
+            <div class="form-row">
+                <s:textfield name="username" label="Username" value="%{username}">
+            </div>
+            <div class="form-row">
+                <s:password name="password" label="Password" value="%{password}"/>
+            </div>
+            <div class="form-row">
+                <s:textfield name="email" label="Email" value="%{email}"/>
+            </div>
+            <div class="form-row">
+                <s:submit value="Save" cssClass="btn"/>
+            </div>
+        </s:form>
     </div>
 
     <div class="nav-links">

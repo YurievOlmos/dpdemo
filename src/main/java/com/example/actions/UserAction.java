@@ -8,9 +8,12 @@ import java.util.List;
 import java.util.Map;
 import org.apache.struts2.interceptor.SessionAware;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 public class UserAction extends ActionSupport implements SessionAware, ModelDriven<User> {
     
-    private User user = new User();
+    private User model;
     private List<User> userList;
     private UserService userService = new UserService();
     private Map<String, Object> session;
@@ -22,28 +25,28 @@ public class UserAction extends ActionSupport implements SessionAware, ModelDriv
     }
     
     public String create() {
-        userService.createUser(user);
+        userService.createUser(model);
         return SUCCESS;
     }
     
     public String edit() {
-        user = userService.getUserById(user.getId());
+        model = userService.getUserById(model.getId());
         return INPUT;
     }
     
     public String update() {
-        userService.updateUser(user);
+        userService.updateUser(model);
         return SUCCESS;
     }
     
     public String delete() {
-        userService.deleteUser(user.getId());
+        userService.deleteUser(model.getId());
         return SUCCESS;
     }
     
     // Métodos de sesión
     public String login() {
-        User authenticatedUser = userService.authenticate(user.getUsername(), user.getPassword());
+        User authenticatedUser = userService.authenticate(model.getUsername(), model.getPassword());
         if (authenticatedUser != null) {
             session.put("user", authenticatedUser);
             return SUCCESS;
@@ -61,7 +64,7 @@ public class UserAction extends ActionSupport implements SessionAware, ModelDriv
     // Getters y Setters
     @Override
     public User getModel() {
-        return user;
+        return model;
     }
     
     public List<User> getUserList() {

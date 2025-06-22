@@ -13,7 +13,7 @@
         <maven.compiler.source>1.8</maven.compiler.source>
         <maven.compiler.target>1.8</maven.compiler.target>
         <struts2.version>2.5.30</struts2.version>
-        <log4j.version>2.23.1</log4j.version>
+        <log4j.version>2.12.1</log4j.version>
     </properties>
     
     <dependencies>
@@ -29,7 +29,7 @@
             <artifactId>struts2-json-plugin</artifactId>
             <version>${struts2.version}</version>
         </dependency>
-        <!-- Log4j dependecy
+        <!-- Log4j dependecy -->
         <dependency>
             <groupId>org.apache.logging.log4j</groupId>
             <artifactId>log4j-api</artifactId>
@@ -40,7 +40,6 @@
             <artifactId>log4j-core</artifactId>
             <version>${log4j.version}</version>
         </dependency>
-         -->
         <!-- JSTL para las vistas JSP -->
         <dependency>
             <groupId>javax.servlet</groupId>
@@ -120,9 +119,28 @@
                 <artifactId>tomcat7-maven-plugin</artifactId>
                 <version>2.2</version>
                 <configuration>
-                    <port>8080</port>  <!-- Default Tomcat port -->
+                    <port>9080</port>  <!-- Default Tomcat port -->
                     <path>/</path>      <!-- Deploy to root context -->
                 </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-dependency-plugin</artifactId>
+                <version>3.5.0</version>
+                <executions>
+                    <execution>
+                        <id>exclude-module-info</id>
+                        <phase>process-resources</phase>
+                        <goals>
+                            <goal>unpack-dependencies</goal>
+                        </goals>
+                        <configuration>
+                            <excludeArtifactIds>log4j-api</excludeArtifactIds>
+                            <excludes>META-INF/versions/9/module-info.class</excludes>
+                            <outputDirectory>${project.build.directory}/filtered-libs</outputDirectory>
+                        </configuration>
+                    </execution>
+                </executions>
             </plugin>
         </plugins>
     </build>
